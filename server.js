@@ -4,8 +4,9 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+require('dotenv').config(); // Add this to load environment variables
 
-// Import routes
+// Import routes - use require for all
 const authRoutes = require('./routes/auth');
 const formRoutes = require('./routes/forms');
 const responseRoutes = require('./routes/responses');
@@ -62,7 +63,7 @@ app.use('*', (req, res) => {
 });
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/formbuilder', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://tonni-akter:tPewuNy5ZrM0yn4n@cluster0.qtpo1.mongodb.net/form_builder', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })

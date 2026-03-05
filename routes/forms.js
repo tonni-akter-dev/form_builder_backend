@@ -19,12 +19,21 @@ router.post('/', auth, auth.adminOnly, async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 });
+router.get('/:id/details', auth, async (req, res) => {
+  try {
+    const form = await Form.findById(req.params.id)
+      .populate('createdBy', 'username'); // No .select(), so it gets everything
+    if (!form) return res.status(404).json({ error: 'Form not found' });
+    res.json(form);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // Get all forms (summary)
 router.get('/', auth, async (req, res) => {
   try {
     const forms = await Form.find()
-      .select('title description createdAt isPublished createdBy')
       .populate('createdBy', 'username')
       .sort({ createdAt: -1 });
     res.json(forms);
