@@ -12,6 +12,7 @@ const formRoutes = require('./routes/forms');
 const responseRoutes = require('./routes/responses');
 const uploadRoutes = require('./routes/upload');
 const visitRoutes = require('./routes/visits');
+const bulkImportRouter = require('./routes/bulk-import');
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use('/api/forms', formRoutes);
 app.use('/api/responses', responseRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/visits', visitRoutes);
+app.use('/api/bulk-import', bulkImportRouter);
 
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
