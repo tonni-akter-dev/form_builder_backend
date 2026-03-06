@@ -15,23 +15,29 @@ const visitRoutes = require("./routes/visits");
 const bulkImportRouter = require("./routes/bulk-import");
 
 const app = express();
-
-// Security middleware
 app.use(helmet());
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://form-builder-frontend-tawny.vercel.app",
+];
+
 app.use(
   cors({
-    origin:
-      process.env.FRONTEND_URL ||
-      "http://localhost:3000" ||
-      "https://form-builder-frontend-tawny.vercel.app/",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100,
 });
 app.use("/api/", limiter);
 
