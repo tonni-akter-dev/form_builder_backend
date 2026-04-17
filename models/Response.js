@@ -9,6 +9,7 @@ const answerSchema = new mongoose.Schema({
   marksAwarded: { type: Number, default: 0 },
   needsManualGrading: { type: Boolean, default: false },
   fileUrls: [{ type: String }], // Array of file URLs from ImgBB
+  teacherFeedback: { type: String, default: "" },
 });
 
 const responseSchema = new mongoose.Schema({
@@ -34,10 +35,10 @@ const responseSchema = new mongoose.Schema({
     default: "pending",
   },
   timeSpent: { type: Number, default: 0 },
+  overallFeedback: { type: String, default: "" }, // Add overall feedback
   ipAddress: String,
   userAgent: String,
   importedFrom: String,
   importedAt: Date,
 });
-
 module.exports = mongoose.model("Response", responseSchema);
