@@ -4,11 +4,11 @@ const answerSchema = new mongoose.Schema({
   fieldId: { type: mongoose.Schema.Types.ObjectId, required: true },
   fieldLabel: { type: String, required: true },
   value: mongoose.Schema.Types.Mixed,
-  isCorrect: Boolean,
+  isCorrect: { type: Boolean, default: false },
   correctAnswer: mongoose.Schema.Types.Mixed,
   marksAwarded: { type: Number, default: 0 },
-
-  fileUrl: String,
+  needsManualGrading: { type: Boolean, default: false },
+  fileUrls: [{ type: String }], // Array of file URLs from ImgBB
 });
 
 const responseSchema = new mongoose.Schema({
@@ -30,8 +30,10 @@ const responseSchema = new mongoose.Schema({
   percentage: { type: Number, default: 0 },
   resultStatus: {
     type: String,
-    enum: ["pass", "fail"],
+    enum: ["pass", "fail", "pending"],
+    default: "pending",
   },
+  timeSpent: { type: Number, default: 0 },
   ipAddress: String,
   userAgent: String,
   importedFrom: String,
