@@ -4,9 +4,13 @@ const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const path = require("path");
-require("dotenv").config(); // Add this to load environment variables
+const dns = require("dns");
 
-// Import routes - use require for all
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
+require("dotenv").config();
+
+
 const authRoutes = require("./routes/auth");
 const formRoutes = require("./routes/forms");
 const responseRoutes = require("./routes/responses");
@@ -16,6 +20,7 @@ const bulkImportRouter = require("./routes/bulk-import");
 
 const app = express();
 app.use(helmet());
+
 const allowedOrigins = [
   "http://localhost:3000",
   "https://form-builder-frontend-tawny.vercel.app",
@@ -39,6 +44,7 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
 });
+
 app.use("/api/", limiter);
 
 // Body parsing middleware
@@ -77,14 +83,7 @@ app.use("*", (req, res) => {
 
 // Database connection
 mongoose
-  .connect(
-    process.env.MONGODB_URI ||
-      "mongodb+srv://tonni-akter:tPewuNy5ZrM0yn4n@cluster0.qtpo1.mongodb.net/form_builder",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    },
-  )
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("Connected to MongoDB");
 

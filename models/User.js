@@ -5,8 +5,19 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ['admin', 'user'], default: 'user' },
-  createdAt: { type: Date, default: Date.now }
+
+  role: { type: String, enum: ["admin", "student"], default: "student" },
+
+  // ✅ NEW (Student Info)
+  className: {
+    type: String,
+    enum: ["Class 6", "Class 7", "Class 8", "Class 9", "Class 10"],
+  },
+
+  rollNumber: String,
+  schoolName: String,
+
+  createdAt: { type: Date, default: Date.now },
 });
 
 userSchema.pre('save', async function(next) {
