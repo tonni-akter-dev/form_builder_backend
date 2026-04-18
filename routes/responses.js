@@ -340,6 +340,7 @@ router.get("/response/:responseId", auth, async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 // Get responses for a specific user
 router.get("/user/:userId", auth, async (req, res) => {
   try {
