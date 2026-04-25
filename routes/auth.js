@@ -20,9 +20,6 @@ router.post("/register", async (req, res) => {
             if (user.email === email) {
                 return res.status(400).json({ msg: "Email already exists" });
             }
-            if (user.username === username) {
-                return res.status(400).json({ msg: "Username already exists" });
-            }
         }
 
         // Create new user (default role is 'user' if not specified)
